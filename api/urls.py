@@ -4,6 +4,7 @@ from api.views import (
     CategoryDetailView,
     DiagnosisListView,
     DiagnosisDetailView,
+    UploadCSV,
 )
 
 
@@ -12,4 +13,5 @@ urlpatterns = [
     path("category/<int:id>", CategoryDetailView.as_view(), name="category-detail"),
     path("diagnosis", DiagnosisListView.as_view(), name="diagnosis-list"),
     path("diagnosis/<int:id>", DiagnosisDetailView.as_view(), name="diagnosis-detail"),
+    path("upload", UploadCSV.as_view(), name="upload-csv")
 ]

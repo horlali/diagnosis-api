@@ -1,8 +1,9 @@
 django
 djangorestframework
 python-dotenv
-# psycopg2
+psycopg2
 pandas
+drf-yasg
 gunicorn
 gevent
-drf-yasg
+sendgrid

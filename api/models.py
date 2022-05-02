@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Category(models.Model):
-    category_code = models.CharField("Category Code", max_length=8, unique=True)
-    category_title = models.CharField("Category Title", max_length=128)
+    category_code = models.CharField("Category Code", max_length=25, unique=True)
+    category_title = models.CharField("Category Title", max_length=1024)
     created_at = models.DateField("Created On", auto_now_add=True)
     updated_at = models.DateField("Updated On", auto_now=True)
 
@@ -25,9 +25,9 @@ class Diagnosis(models.Model):
         max_length=12, choices=ICD_TYPES, default=ICD_TYPES[1][0]
     )
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
-    diagnosis_code = models.CharField("Diagnosis Code", max_length=8, blank=True)
-    abbreviated_desc = models.CharField("Abreviated Description", max_length=256)
-    full_desc = models.TextField("Full Description", max_length=512)
+    diagnosis_code = models.CharField("Diagnosis Code", max_length=10, blank=True)
+    abbreviated_desc = models.CharField("Abreviated Description", max_length=2048)
+    full_desc = models.TextField("Full Description", max_length=2048)
     created_at = models.DateField("Created At", auto_now_add=True)
     updated_at = models.DateField("Updated At", auto_now=True)
 

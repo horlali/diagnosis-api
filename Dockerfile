@@ -20,8 +20,8 @@ RUN mkdir -p $PROJECT
 WORKDIR $PROJECT
 
 # Install requirements
-COPY ./requirements.txt $PROJECT/requirements.txt 
 RUN pip install --upgrade pip
+COPY ./requirements.txt $PROJECT/requirements.txt 
 RUN pip install -r $PROJECT/requirements.txt --default-timeout=100 future
 
 # Add files to container

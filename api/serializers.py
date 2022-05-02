@@ -3,8 +3,8 @@ from api.models import Category, Diagnosis
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    category_code = serializers.CharField(max_length=8)
-    category_title = serializers.CharField(max_length=255)
+    category_code = serializers.CharField(max_length=25)
+    category_title = serializers.CharField(max_length=1024)
 
     class Meta:
         model = Category
@@ -12,9 +12,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class DiagnosisSerializer(serializers.ModelSerializer):
-    diagnosis_code = serializers.CharField(max_length=8)
-    abbreviated_desc = serializers.CharField(max_length=255)
-    icd_type = serializers.CharField(max_length=12)
+    diagnosis_code = serializers.CharField(max_length=10)
+    abbreviated_desc = serializers.CharField(max_length=2048)
     category_code = serializers.SerializerMethodField()
     category_title = serializers.SerializerMethodField()
 

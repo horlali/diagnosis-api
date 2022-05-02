@@ -28,7 +28,7 @@ schema_view = get_schema_view(
         default_version="v1",
         description="API for ICD Diagnosis CRUD operations",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email=environ.get("EMAIL")),
+        contact=openapi.Contact(email=environ.get("EMAIL_HOST_USER")),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
