@@ -1,7 +1,7 @@
 # Diagnosis Hub
 ## RESTful API for Internationally Recognized Set of Diagnosis Codes
 
-[![N|Solid](https://static.djangoproject.com/img/logos/django-logo-negative.svg)](https://linkedin.com/in/gideon-ahiadzi)
+### Welcome to my little spacetime continium
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://linkedin.com/in/gideon-ahiadzi)
 
@@ -43,6 +43,7 @@ cd diagnosis-api
 # submission email and paste into into the .env file
 docker-compose up --build
 ```
+Voilà ✨✨ - The app is up and running
 
 
 ## Documentation
