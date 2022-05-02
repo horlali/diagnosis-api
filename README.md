@@ -28,13 +28,25 @@ Diagnosis Hub require the docker and docker-compose to run
 git clone https://github.com/horlali/diagnosis-api.git
 cd diagnosis-api
 touch .env
-# Copy the content of the environment variable file attached to the submission email and paste into into the .env file
+# Copy the content of the environment variable file attached to the 
+# submission email and paste into into the .env file
 docker-compose up --build
 ```
-Voilà - The app is up and running
+Voilà ✨✨ - The app is up and running
+
+### Windows system
+```sh
+git clone https://github.com/horlali/diagnosis-api.git
+cd diagnosis-api
+# Create a .env file in the diagnosis-api folder
+# Copy the content of the environment variable file attached to the 
+# submission email and paste into into the .env file
+docker-compose up --build
+```
+
 
 ## Documentation
-With the app running visit `localhost:8001` and interact with it.
+With the app running visit `localhost:8001` in your browser to view documentation and interact with it.
 
 
 ## Inspect Database
