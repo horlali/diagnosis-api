@@ -1,0 +1,12 @@
+# Environment variables
+.env.local
+.env.staging
+
+# Local database
+db.sqlite3
+
+# Directories
+__pycache__/
+.vscode/
+DATA/
+ICD-10-CSV/

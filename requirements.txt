@@ -1,0 +1,8 @@
+django
+djangorestframework
+python-dotenv
+# psycopg2
+pandas
+gunicorn
+gevent
+drf-yasg

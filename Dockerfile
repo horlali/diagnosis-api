@@ -1,0 +1,32 @@
+FROM python:3.10.2-slim-bullseye
+
+# Python environments
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Packages required for setting up WSGI
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends gcc libc-dev python3-dev
+
+# Install psycopg dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Make project
+ENV PROJECT=/home/app
+RUN mkdir -p $PROJECT
+WORKDIR $PROJECT
+
+# Install requirements
+COPY ./requirements.txt $PROJECT/requirements.txt 
+RUN pip install --upgrade pip
+RUN pip install -r $PROJECT/requirements.txt --default-timeout=100 future
+
+# Add files to container
+COPY . $PROJECT
+
+# Make deployments scripts executable
+RUN chmod +x ./deploy/command.sh
+

@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: diagnosis-hub:latest
+    command: ./deploy/command.sh
+    restart: always
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app:rw
+      - static_volume:/home/app/static
+    env_file:
+      - .env
+    depends_on:
+      - db
+    container_name: DIAGNOSIS-HUB-API
+
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    container_name: DIAGNOSIS-HUB-DB
+
+volumes:
+  static_volume:
+  pgdata:
+

@@ -1,0 +1,5 @@
+# Directories
+.git
+.vscode
+__pycache__
+DATA
