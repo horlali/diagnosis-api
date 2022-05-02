@@ -32,6 +32,7 @@ touch .env
 # submission email and paste into into the .env file
 docker-compose up --build
 ```
+Alternatively you can request access to the environment variables [here](https://docs.google.com/document/d/1Fr33uDpNXEdXYVFOWYxVLImdyDc7lRlDUlBry1FiDhc/edit)
 Voilà ✨✨ - The app is up and running
 
 ### Windows system
@@ -43,8 +44,8 @@ cd diagnosis-api
 # submission email and paste into into the .env file
 docker-compose up --build
 ```
+Alternatively you can request access to the environment variables [here](https://docs.google.com/document/d/1Fr33uDpNXEdXYVFOWYxVLImdyDc7lRlDUlBry1FiDhc/edit)
 Voilà ✨✨ - The app is up and running
-
 
 ## Documentation
 With the app running visit `localhost:8001` in your browser to view documentation and interact with it.
