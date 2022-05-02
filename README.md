@@ -1,10 +1,12 @@
 # Diagnosis Hub
 ## RESTful API for Internationally Recognized Set of Diagnosis Codes
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://linkedin.com/in/gideon-ahiadzi)
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://linkedin.com/in/gideon-ahiadzi)
+[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 Diagnosis Hub is a set of RESTful APIs that can allow us to utilize an internationally recognized set of diagnosis codes.
+
 DRF-YASG-powered API Documentation.
 - Visit `localhost:8001`
 - See Documentation in Browser
@@ -20,9 +22,13 @@ DRF-YASG-powered API Documentation.
 
 ## Project Setup
 Diagnosis Hub require the docker and docker-compose to run
+
+### Unix system or unix like terminal
 ```sh
 git clone https://github.com/horlali/diagnosis-api.git
 cd diagnosis-api
+touch .env
+# Copy the content of the environment variable file attached to the submission email and paste into into the .env file
 docker-compose up --build
 ```
 Voilà  - The app is up and running
