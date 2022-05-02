@@ -33,6 +33,7 @@ touch .env
 docker-compose up --build
 ```
 Alternatively you can request access to the environment variables [here](https://docs.google.com/document/d/1Fr33uDpNXEdXYVFOWYxVLImdyDc7lRlDUlBry1FiDhc/edit)
+
 Voilà ✨✨ - The app is up and running
 
 ### Windows system
@@ -45,6 +46,7 @@ cd diagnosis-api
 docker-compose up --build
 ```
 Alternatively you can request access to the environment variables [here](https://docs.google.com/document/d/1Fr33uDpNXEdXYVFOWYxVLImdyDc7lRlDUlBry1FiDhc/edit)
+
 Voilà ✨✨ - The app is up and running
 
 ## Documentation
