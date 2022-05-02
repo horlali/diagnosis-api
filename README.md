@@ -31,10 +31,23 @@ touch .env
 # Copy the content of the environment variable file attached to the submission email and paste into into the .env file
 docker-compose up --build
 ```
-Voilà  - The app is up and running
+Voilà - The app is up and running
 
 ## Documentation
-With the app running visti `localhost:8001` and interact with it.
+With the app running visit `localhost:8001` and interact with it.
 
 
-## 
+## Inspect Database
+Inspecting the database require the pgadmin installed.
+- Open pgadmin
+- Register a new server
+- Choose a name for the server
+- Click the `Connection` Tab
+    - Host = `localhost`
+    - Port = `5432`
+    - Maintenance database = `postgres`
+    - Username = `postgres`
+    - Password = `postgres`
+- Click `Save`
+
+Voilà ✨✨ - You can now inspect the database
