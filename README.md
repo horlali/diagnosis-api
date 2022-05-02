@@ -1,9 +1,9 @@
 # Diagnosis Hub
 ## RESTful API for Internationally Recognized Set of Diagnosis Codes
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+[![N|Solid](https://static.djangoproject.com/img/logos/django-logo-negative.svg)](https://linkedin.com/in/gideon-ahiadzi)
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://linkedin.com/in/gideon-ahiadzi)
 
 Diagnosis Hub is a set of RESTful APIs that can allow us to utilize an internationally recognized set of diagnosis codes.
 
