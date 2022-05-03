@@ -3,7 +3,6 @@ from pandas import read_csv
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-from django.db.utils import IntegrityError
 from api.models import Category, Diagnosis
 
 
@@ -73,6 +72,8 @@ class ProcessCSV:
 
         print("Injection data into category table ")
         Category.objects.bulk_create(injection_set, ignore_conflicts=True)
+        
+        return str("Category Data Injection Done")
 
     def inject_diagnosis(self):
         df = read_csv(self.file_object, names=self._columns)
@@ -102,10 +103,12 @@ class ProcessCSV:
         print("Injection data into diagnosis table ")
         Diagnosis.objects.bulk_create(injection_set, ignore_conflicts=True)
 
+        return str("Diagnosis Data Injection Done")
+
 
 class Messaging:
     @staticmethod
-    def send_mail(email, custom_err="", status="success"):
+    def send_mail(email, status="success"):
 
         name = email.split("@")[0]
 
@@ -134,6 +137,8 @@ class Messaging:
 
             response = sg.send(failure_message)
             print({"status_code": response.status_code, "body": response.body})
+
+        return str("Messaging Done!")
 
 
 class Operations(ProcessCSV, Messaging):
@@ -164,3 +169,5 @@ class Operations(ProcessCSV, Messaging):
                 "Something went wrong while sending Success Email, resort to failure message"
             )
             self.send_mail(email=self.email, status="failed")
+
+        return str("Service Done!")
