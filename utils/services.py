@@ -72,7 +72,7 @@ class ProcessCSV:
 
         print("Injection data into category table ")
         Category.objects.bulk_create(injection_set, ignore_conflicts=True)
-        
+
         return str("Category Data Injection Done")
 
     def inject_diagnosis(self):
