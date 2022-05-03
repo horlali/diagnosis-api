@@ -7,8 +7,8 @@ from django.db.utils import IntegrityError
 from api.models import Category, Diagnosis
 
 
-_category_columns = ["category_code", "category_title"]
-_diagnosis_columns = [
+CATEGORY_COLUMNS = ["category_code", "category_title"]
+DIAGNOSIS_COLUMNS = [
     "category_code",
     "diagnosis_code",
     "full_code",
@@ -17,16 +17,24 @@ _diagnosis_columns = [
     "category_title",
 ]
 
-_success_subject = "Data Injection Success"
-_failed_subject = "Data Injection Failed"
+_SUCCESS_SUBJECT = "Data Injection Success"
+_FAILED_SUBJECT = "Data Injection Failed"
 
 
 def _custom_message(name, status="success"):
     if status == "success":
-        msg = f"Hello {name}, your data has been injected successfully"
+        msg = (
+            f"Hello {name}, \n"
+            f"Your data has been injected successfully \n"
+            f"Best, Regards"
+        )
         return msg
     else:
-        msg = f"Hello {name}, your data injection was not successfully"
+        msg = (
+            f"Hello {name}, \n"
+            f"Your data injection was not successfully \n"
+            f"Best, Regards"
+        )
         return msg
 
 
@@ -42,9 +50,9 @@ class ProcessCSV:
         self.csv_type = csv_type
 
         if csv_type == "category":
-            self._columns = _category_columns
+            self._columns = CATEGORY_COLUMNS
         else:
-            self._columns = _diagnosis_columns
+            self._columns = DIAGNOSIS_COLUMNS
 
     def inject_category(self):
         df = read_csv(self.file_object, names=self._columns)
@@ -54,6 +62,7 @@ class ProcessCSV:
             keep="first",
         )
 
+        print("Started collecting category data for injection")
         injection_set = [
             Category(
                 category_code=row.category_code,
@@ -62,16 +71,15 @@ class ProcessCSV:
             for row in data.itertuples()
         ]
 
-        try:
-            Category.objects.bulk_create(injection_set)
-        except IntegrityError as e:
-            pass
+        print("Injection data into category table ")
+        Category.objects.bulk_create(injection_set)
 
     def inject_diagnosis(self):
         df = read_csv(self.file_object, names=self._columns)
         df.dropna(subset="full_code", inplace=True)
         data = df.drop_duplicates(subset=["full_code"], keep="first")
 
+        print("Started collecting diagnosis data for injection")
         injection_set = list()
 
         for _index, row in data.iterrows():
@@ -91,22 +99,24 @@ class ProcessCSV:
                 )
             )
 
+        print("Injection data into diagnosis table ")
         Diagnosis.objects.bulk_create(injection_set)
 
 
 class Messaging:
     @staticmethod
-    def send_mail(email, status="success"):
+    def send_mail(email, custom_err="", status="success"):
 
         name = email.split("@")[0]
 
         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
 
         if status == "success":
+            print("Started sending success message")
             success_message = Mail(
                 from_email=os.environ.get("EMAIL_HOST_USER"),
                 to_emails=email,
-                subject=_success_subject,
+                subject=_SUCCESS_SUBJECT,
                 plain_text_content=_custom_message(name=name, status=status),
             )
 
@@ -114,10 +124,11 @@ class Messaging:
             print({"status_code": response.status_code, "body": response.body})
 
         else:
+            print("Started sending failure message")
             failure_message = Mail(
                 from_email=os.environ.get("EMAIL_HOST_USER"),
                 to_emails=email,
-                subject=_failed_subject,
+                subject=_FAILED_SUBJECT,
                 plain_text_content=_custom_message(name=name, status=status),
             )
 
@@ -139,12 +150,17 @@ class Operations(ProcessCSV, Messaging):
 
     def service(self):
         try:
+            print("Starting Data Injection")
             if self.csv_type == "category":
                 self.inject_category()
             else:
                 self.inject_diagnosis()
 
+            print("Finished Data Injection, Start Sending Success mail")
             self.send_mail(email=self.email, status=self.status)
         except Exception as e:
             print(e)
+            print(
+                "Something went wrong while sending Success Email, resort to failure message"
+            )
             self.send_mail(email=self.email, status="failed")
