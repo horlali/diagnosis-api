@@ -72,7 +72,7 @@ class ProcessCSV:
         ]
 
         print("Injection data into category table ")
-        Category.objects.bulk_create(injection_set)
+        Category.objects.bulk_create(injection_set, ignore_conflicts=True)
 
     def inject_diagnosis(self):
         df = read_csv(self.file_object, names=self._columns)
@@ -100,7 +100,7 @@ class ProcessCSV:
             )
 
         print("Injection data into diagnosis table ")
-        Diagnosis.objects.bulk_create(injection_set)
+        Diagnosis.objects.bulk_create(injection_set, ignore_conflicts=True)
 
 
 class Messaging:
