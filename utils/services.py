@@ -17,7 +17,7 @@ _diagnosis_columns = [
     "category_title",
 ]
 
-_success_subject = "Data Injection Succes"
+_success_subject = "Data Injection Success"
 _failed_subject = "Data Injection Failed"
 
 

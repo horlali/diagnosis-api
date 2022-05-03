@@ -7,6 +7,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.parsers import FileUploadParser, MultiPartParser
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+import validators
 
 from api.models import Category, Diagnosis
 from api.serializers import CategorySerializer, DiagnosisSerializer
@@ -133,26 +134,37 @@ class UploadCSV(APIView):
         email = request.data["email"]
         record_type = request.data["record_type"]
 
-        print(file_obj)
-        print(email)
-        print(record_type)
+        if record_type.lower() == "category" or record_type.lower() == "diagnosis":
+            if not validators.email(email):
+                err = {"status": "failed", "detail": "Please enter a valid email"}
+                return Response(err, status=status.HTTP_400_BAD_REQUEST)
 
-        operations = Operations(
-            file_object=file_obj,
-            email=email,
-            csv_type=record_type,
-        )
-        process = Process(target=operations.service)
-        process.start()
+            if str(file_obj).split(".")[-1].lower() != "csv":
+                err = {
+                    "status": "failed",
+                    "detail": "Uploaded file is not a valid csv file",
+                }
+                return Response(err, status=status.HTTP_400_BAD_REQUEST)
 
-        resp = {"status": "success", "detail": "Upload Successsfully"}
-        return Response(resp, status=status.HTTP_200_OK)
+            operations = Operations(
+                file_object=file_obj,
+                email=email,
+                csv_type=record_type.lower(),
+            )
 
+            process = Process(target=operations.service)
+            process.start()
 
-# TODO: Uploading files :DONE
-# TODO: Emails and Django Signals :SWAPPED FOR MULTIPROCESSING
-# TODO: Multiprocess the upload view and send the email after :DONE
-# TODO: Optimize and clean code :DONE
+            resp = {"status": "success", "detail": "Upload Successsfully"}
+            return Response(resp, status=status.HTTP_200_OK)
+
+        else:
+            err = {
+                "status": "failed",
+                "detail": "KeyError [use 'category' or 'diagnosis']",
+            }
+            return Response(err, status=status.HTTP_400_BAD_REQUEST)
+
 
 # TODO: Seed data into database
 # TODO: Unit test

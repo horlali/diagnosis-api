@@ -34,3 +34,6 @@ class Diagnosis(models.Model):
     @property
     def full_code(self):
         return f"{self.category.category_code}{self.diagnosis_code if self.diagnosis_code else ''}"
+
+    class Meta:
+        ordering = ["-id"]

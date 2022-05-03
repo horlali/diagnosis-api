@@ -7,3 +7,4 @@ drf-yasg
 gunicorn
 gevent
 sendgrid
+validators
