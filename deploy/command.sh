@@ -13,6 +13,9 @@ PORT=8001
 # Migrations
 python $PROJECT_DIR/manage.py makemigrations
 python $PROJECT_DIR/manage.py migrate
+python $PROJECT_DIR/manage.py flush --no-input
+python $PROJECT_DIR/manage.py loaddata category
+python $PROJECT_DIR/manage.py loaddata diagnosis
 python $PROJECT_DIR/manage.py runserver $HOST:$PORT
 
 # For some reason gunicorn cannot properly display Swagger documentation interface.
