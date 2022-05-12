@@ -24,31 +24,23 @@ class CategoryListAPIView(ListCreateAPIView):
 
         try:
             category_code = Category.objects.get(
-                code=request.data.get("category_code")
-            ).code
+                category_code=request.data.get("category_code")
+            ).category_code
             if category_code == request.data.get("category_code"):
-                err = {"status": "failed", "detail": "Category already exists"}
-                return Response(err, status=status.HTTP_409_CONFLICT)
-            else:
-                raise Exception("I will look into this later")
-
-        except:
-            try:
-                self.perform_create(serializer)
-                resp = {
-                    "status": "success",
-                    "detail": "Category Created",
-                    "data": serializer.data,
-                }
-                return Response(resp, status=status.HTTP_201_CREATED)
-
-            except IntegrityError as e:
-                code = request.data.get("category_code")
                 err = {
                     "status": "failed",
-                    "detail": f"Category with {code} already exist, consider updating!",
+                    "detail": f"Category with code {category_code} already exist",
                 }
                 return Response(err, status=status.HTTP_409_CONFLICT)
+
+        except Category.DoesNotExist:
+            self.perform_create(serializer)
+            resp = {
+                "status": "success",
+                "detail": "Category Created",
+                "data": serializer.data,
+            }
+            return Response(resp, status=status.HTTP_201_CREATED)
 
 
 class CategoryDetailView(RetrieveUpdateDestroyAPIView):
@@ -66,36 +58,32 @@ class DiagnosisListView(ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
 
         try:
-            category_id = Diagnosis.objects.get(
-                diagnosis_code=request.data.get("diagnosis_code")
-            ).category.id
-            diagnosis_id = Diagnosis.objects.get(
-                diagnosis_code=request.data.get("diagnosis_code")
-            ).diagnosis_code
+            category_code = Category.objects.get(
+                id=request.data.get("category")
+            ).category_code
 
-            if category_id == request.data.get(
-                "category"
-            ) and diagnosis_id == request.data.get("diagnosis_code"):
-                err = {"status": "failed", "detail": "Diagnosis already exists"}
-                return Response(err, status=status.HTTP_409_CONFLICT)
+        except Category.DoesNotExist:
+            category_code = request.data.get("category_code")
+            err = {
+                "status": "failed",
+                "detail": f"The category code {category_code} does not exist!\
+                    ",
+            }
+            return Response(err, status=status.HTTP_400_BAD_REQUEST)
 
-            else:
-                raise Exception("I will look into this later")
+        try:
+            self.perform_create(serializer=serializer)
 
-        except:
-            try:
-                self.perform_create(serializer=serializer)
+            resp = {
+                "status": "success",
+                "detail": "Diagnosis Created",
+                "data": serializer.data,
+            }
+            return Response(resp, status=status.HTTP_201_CREATED)
 
-                resp = {
-                    "status": "success",
-                    "detail": "Diagnosis Created",
-                    "data": serializer.data,
-                }
-                return Response(resp, status=status.HTTP_201_CREATED)
-
-            except IntegrityError as e:
-                err = {"status": "failed", "detail": "Diagnosis already exist"}
-                return Response(err, status=status.HTTP_409_CONFLICT)
+        except IntegrityError as e:
+            err = {"status": "failed", "detail": "Diagnosis already exist"}
+            return Response(err, status=status.HTTP_409_CONFLICT)
 
 
 class DiagnosisDetailView(RetrieveUpdateDestroyAPIView):

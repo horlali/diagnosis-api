@@ -21,6 +21,15 @@ _FAILED_SUBJECT = "Data Injection Failed"
 
 
 def _custom_message(name, status="success"):
+    """
+    Returns a custom string base on operations status
+
+    Parameters
+    ----------
+        `name`: Name of user the message is meant for.
+        `status`: Status of operation, defaults to success if not provided
+
+    """
     if status == "success":
         msg = (
             f"Hello {name}, \n"
@@ -39,9 +48,18 @@ def _custom_message(name, status="success"):
 
 class ProcessCSV:
     """
-    class for injecting diagnosis data into database
-    :params: file_object
-    :params: csv_type
+    Class for injecting data into database table
+
+    Parameters
+    ----------
+        `file_object`: uploaded csv file loaded as an object
+        `csv_type`: record type of the csv, category or diagnosis, \
+            defaults to category if not provided
+
+    Methods
+    -------
+        `inject_category`: inject data into category table
+        `inject_diagnosis`: inject data into diagnosis table
     """
 
     def __init__(self, file_object, csv_type="category"):
@@ -107,9 +125,25 @@ class ProcessCSV:
 
 
 class Messaging:
+    """
+    Class for sending out messages about processing status
+
+    Methods
+    -------
+        send_mail: sends email using sendgrids API
+    """
+
     @staticmethod
     def send_mail(email, status="success"):
+        """
+        Sends report email to user after operations is done
 
+        Parameters
+        ----------
+            email: email to which message will be sent to
+            status: specifies which email to send, \
+                defaults to success if not provided
+        """
         name = email.split("@")[0]
 
         sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
@@ -142,6 +176,14 @@ class Messaging:
 
 
 class Operations(ProcessCSV, Messaging):
+    """
+    class for processing uploaded csv files.
+
+    Parameters
+    ----------
+    All parameters of inherited classes `ProcessCSV` and `Messaging` applies
+    """
+
     def __init__(
         self,
         file_object,
@@ -166,7 +208,8 @@ class Operations(ProcessCSV, Messaging):
         except Exception as e:
             print(e)
             print(
-                "Something went wrong while sending Success Email, resort to failure message"
+                "Something went wrong while sending Success Email, \
+                    resort to failure message"
             )
             self.send_mail(email=self.email, status="failed")
 
